@@ -362,6 +362,17 @@ sub execute {
 
 sub _add {
     my ( $self, $name, $file, $tmpl, $engine, $project ) = @_;
+    
+    # Check if the file name has a double extension
+    if ($file =~ m/\.(\w+)\.\w+$/) {
+        my $ext = $1;
+        $self->warning(__x(
+            'Warning: file {file} has a double extension of {ext}',
+            file => $file,
+            ext  => $ext,
+        ));
+    }
+    
     if (-e $file) {
         $self->info(__x(
             'Skipped {file}: already exists',
